@@ -84,8 +84,8 @@ Because those tables include user-related data, the plugin implements Moodle's P
 
 Before submitting to the Moodle plugins directory, replace these placeholders with public project URLs:
 
-- Source control: `https://github.com/your-org/moodle-local_group_monitoring`
-- Issue tracker: `https://github.com/your-org/moodle-local_group_monitoring/issues`
+- Source control: `https://github.com/consulguia-oficial/local_group_monitoring/tree/master`
+- Issue tracker: `https://github.com/consulguia-oficial/local_group_monitoring/issues`
 
 A public issue tracker is required for Moodle plugins directory approval.
 
