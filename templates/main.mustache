@@ -1,0 +1,161 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+}}
+<div class="container-fluid mt-3" id="groupmon-container" data-courseid="{{courseid}}" data-sesskey="{{sesskey}}">
+<div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+<div>
+<h2 class="mb-0 font-weight-bold">
+{{#tab_dashboard}}Dashboard{{/tab_dashboard}}
+{{#tab_courses}}Cursos{{/tab_courses}}
+{{#tab_groups}}Grupos{{/tab_groups}}
+{{#tab_polos}}Polos{{/tab_polos}}
+{{#tab_tutors}}Tutores{{/tab_tutors}}
+</h2>
+<p class="text-muted">Visão geral e gestão do Group Monitoring</p>
+</div>
+<div>
+{{#tab_groups}}{{#cancreategroup}}<button id="btn-new-group" class="btn btn-primary"><i class="fa fa-plus mr-1"></i> Novo Grupo</button>{{/cancreategroup}}{{/tab_groups}}
+{{#tab_polos}}{{#canmanagepolo}}<button id="btn-new-polo" class="btn btn-primary"><i class="fa fa-plus mr-1"></i> Garantir Campo Polo</button>{{/canmanagepolo}}{{/tab_polos}}
+{{#tab_tutors}}{{#cancreatetutor}}<button id="btn-new-tutor" class="btn btn-primary"><i class="fa fa-plus mr-1"></i> Novo Tutor</button>{{/cancreatetutor}}{{/tab_tutors}}
+</div>
+</div>
+<ul class="nav nav-pills mb-4">
+<li class="nav-item"><a class="nav-link {{#tab_dashboard}}active font-weight-bold{{/tab_dashboard}} px-4" href="?courseid={{courseid}}&tab=dashboard"><i class="fa fa-th-large mr-2"></i>Dashboard</a></li>
+<li class="nav-item"><a class="nav-link {{#tab_courses}}active font-weight-bold{{/tab_courses}} px-4" href="?courseid={{courseid}}&tab=courses"><i class="fa fa-book mr-2"></i>Cursos</a></li>
+<li class="nav-item"><a class="nav-link {{#tab_tutors}}active font-weight-bold{{/tab_tutors}} px-4" href="?courseid={{courseid}}&tab=tutors"><i class="fa fa-graduation-cap mr-2"></i>Tutores</a></li>
+<li class="nav-item"><a class="nav-link {{#tab_groups}}active font-weight-bold{{/tab_groups}} px-4" href="?courseid={{courseid}}&tab=groups"><i class="fa fa-users mr-2"></i>Grupos</a></li>
+<li class="nav-item"><a class="nav-link {{#tab_polos}}active font-weight-bold{{/tab_polos}} px-4" href="?courseid={{courseid}}&tab=polos"><i class="fa fa-map-marker mr-2"></i>Polos</a></li>
+</ul>
+<div class="tab-content bg-transparent border-0">
+{{#tab_dashboard}}
+<div class="row">
+<div class="col-md-3 mb-4"><div class="card shadow-sm border-0"><div class="card-body d-flex align-items-center"><div class="p-3 bg-light rounded text-primary mr-3"><i class="fa fa-book fa-2x"></i></div><div><h3 class="mb-0">{{totalcourses}}</h3><small class="text-muted">Cursos</small></div></div></div></div>
+<div class="col-md-3 mb-4"><div class="card shadow-sm border-0"><div class="card-body d-flex align-items-center"><div class="p-3 bg-light rounded text-warning mr-3"><i class="fa fa-users fa-2x"></i></div><div><h3 class="mb-0">{{totalgroups}}</h3><small class="text-muted">Grupos</small></div></div></div></div>
+<div class="col-md-3 mb-4"><div class="card shadow-sm border-0"><div class="card-body d-flex align-items-center"><div class="p-3 bg-light rounded text-secondary mr-3"><i class="fa fa-map-marker fa-2x"></i></div><div><h3 class="mb-0">{{totalpolos}}</h3><small class="text-muted">Polos</small></div></div></div></div>
+<div class="col-md-3 mb-4"><div class="card shadow-sm border-0"><div class="card-body d-flex align-items-center"><div class="p-3 bg-light rounded text-danger mr-3"><i class="fa fa-graduation-cap fa-2x"></i></div><div><h3 class="mb-0">{{totaltutors}}</h3><small class="text-muted">Cursistas</small></div></div></div></div>
+</div>
+{{/tab_dashboard}}
+{{#tab_courses}}
+<div class="card shadow-sm border-0 mb-3 col-md-6"><div class="card-body"><div class="d-flex align-items-center mb-3"><div class="p-2 bg-light text-primary rounded mr-3"><i class="fa fa-book"></i></div><div><h5 class="mb-0 font-weight-bold">{{coursename}}</h5><small class="text-muted">{{courseshortname}}</small></div></div><div class="d-flex justify-content-between align-items-center"><span class="badge badge-secondary p-2"><i class="fa fa-users mr-1"></i>Curso Atual</span></div></div></div>
+{{/tab_courses}}
+{{#tab_groups}}
+<div class="row">
+{{#list_groups}}
+<div class="col-md-6"><div class="card shadow-sm border-0 mb-3"><div class="card-body"><div class="d-flex align-items-center mb-3"><div class="p-2 bg-light text-primary rounded mr-3"><i class="fa fa-users"></i></div><div><h5 class="mb-0 font-weight-bold">{{name}}</h5><small class="text-muted">{{membercount}} alunos vinculados</small></div></div><div class="mb-3"><span class="badge badge-light border mr-1">{{polo}}</span></div><div class="bg-light p-2 rounded mb-3"><h6 class="small font-weight-bold text-muted text-uppercase mb-2">Membros do Grupo</h6>{{#has_members}}<ul class="list-unstyled mb-0 small">{{#members}}<li class="d-flex justify-content-between border-bottom pb-1 mb-1"><span class="text-dark"><i class="fa fa-user-o mr-1"></i> {{firstname}} {{lastname}} ({{username}})</span><span class="badge badge-secondary">{{added_via}}</span></li>{{/members}}</ul>{{/has_members}}{{^has_members}}<div class="small text-muted">Nenhum aluno vinculado.</div>{{/has_members}}</div>{{#canaddmember}}<div class="border-top pt-3 d-flex justify-content-between"><button class="btn btn-sm btn-outline-primary btn-add-manual" data-groupid="{{id}}" data-groupname="{{name}}"><i class="fa fa-user-plus mr-1"></i> Add Manual</button><button class="btn btn-sm btn-outline-secondary btn-add-csv" data-groupid="{{id}}" data-groupname="{{name}}"><i class="fa fa-upload mr-1"></i> Importar CSV</button></div>{{/canaddmember}}</div></div></div>
+{{/list_groups}}
+{{^list_groups}}
+<div class="col-12"><div class="alert alert-info">Nenhum grupo monitorado neste curso. Crie um novo grupo acima.</div></div>
+{{/list_groups}}
+</div>
+{{/tab_groups}}
+{{#tab_polos}}
+<div class="row">
+{{#list_polos}}
+<div class="col-md-6"><div class="card shadow-sm border-0 mb-3"><div class="card-body"><div class="d-flex align-items-center"><div class="p-2 bg-light text-primary rounded mr-3"><i class="fa fa-map-marker"></i></div><div><h5 class="mb-0 font-weight-bold">{{name}}</h5></div></div></div></div></div>
+{{/list_polos}}
+{{^list_polos}}
+<div class="col-12"><div class="alert alert-info">Nenhum polo registado nos utilizadores. Clique no botão acima para garantir a estrutura e cadastre tutores em seguida.</div></div>
+{{/list_polos}}
+</div>
+{{/tab_polos}}
+{{#tab_tutors}}
+<div class="row">
+{{#list_tutors}}
+<div class="col-md-6"><div class="card shadow-sm border-0 mb-3"><div class="card-body"><div class="d-flex align-items-center"><div class="p-2 bg-light text-primary rounded mr-3 font-weight-bold"><i class="fa fa-user"></i></div><div><h5 class="mb-0 font-weight-bold">{{firstname}} {{lastname}}</h5><small class="text-muted">{{email}}</small></div></div></div></div></div>
+{{/list_tutors}}
+{{^list_tutors}}
+<div class="col-12"><div class="alert alert-info">Nenhum utilizador com o papel de tutor matriculado neste curso.</div></div>
+{{/list_tutors}}
+</div>
+{{/tab_tutors}}
+</div>
+</div>
+<div id="hidden-roles" style="display:none;">{{#list_roles}}<option value="{{id}}">{{name}}</option>{{/list_roles}}</div>
+<div id="hidden-polos" style="display:none;">{{#list_polos}}<option value="{{name}}">{{name}}</option>{{/list_polos}}</div>
+<div id="hidden-tutors" style="display:none;">{{#list_tutors}}<option value="{{id}}">{{firstname}} {{lastname}}</option>{{/list_tutors}}</div>
+<datalist id="polo-list">{{#list_polos}}<option value="{{name}}"></option>{{/list_polos}}</datalist>
+{{#js}}
+require(['jquery', 'core/modal_factory', 'core/modal_events'], function($, ModalFactory, ModalEvents) {
+$(document).on('click', '[id^=btn-new-]', function(e) {
+e.preventDefault();
+var btnId = $(this).attr('id');
+var container = $('#groupmon-container');
+var courseid = container.data('courseid');
+var sesskey = container.data('sesskey');
+var rolesOptions = $('#hidden-roles').html();
+var polosOptions = $('#hidden-polos').html();
+var tutorsOptions = $('#hidden-tutors').html();
+var title = '';
+var body = '';
+var btnText = '';
+if (btnId === 'btn-new-polo') {
+title = 'Garantir Campo Polo';
+btnText = 'Criar Campo';
+body = '<form id="groupmon-form" action="index.php?courseid='+courseid+'" method="POST"><input type="hidden" name="sesskey" value="'+sesskey+'"><input type="hidden" name="action" value="createpolo"><p>Isto criará o campo profile_field_polo nativamente no Moodle.</p></form>';
+} else if (btnId === 'btn-new-tutor') {
+title = 'Novo Tutor';
+btnText = 'Criar Tutor';
+body = '<form id="groupmon-form" action="index.php?courseid='+courseid+'" method="POST"><input type="hidden" name="sesskey" value="'+sesskey+'"><input type="hidden" name="action" value="createtutor"><div class="row"><div class="col-md-6"><div class="form-group"><label class="font-weight-bold">Primeiro nome *</label><input type="text" name="firstname" class="form-control" required></div></div><div class="col-md-6"><div class="form-group"><label class="font-weight-bold">Sobrenome *</label><input type="text" name="lastname" class="form-control" required></div></div></div><div class="form-group"><label class="font-weight-bold">Email *</label><input type="email" name="email" class="form-control" required></div><div class="row"><div class="col-md-6"><div class="form-group"><label class="font-weight-bold">Username *</label><input type="text" name="username" class="form-control" required></div></div><div class="col-md-6"><div class="form-group"><label class="font-weight-bold">Senha Inicial *</label><input type="password" name="password" class="form-control" required></div></div></div><div class="form-group"><label class="font-weight-bold">Papel (Role) no Curso *</label><select name="roleid" class="form-control" required><option value="">Selecione...</option>'+rolesOptions+'</select></div><div class="form-group"><label class="font-weight-bold">Vincular a um Polo</label><input type="text" name="polo" class="form-control" list="polo-list" placeholder="Digite o nome do polo (Opcional)"></div></form>';
+} else if (btnId === 'btn-new-group') {
+title = 'Novo Grupo';
+btnText = 'Criar Grupo';
+body = '<form id="groupmon-form" action="index.php?courseid='+courseid+'" method="POST"><input type="hidden" name="sesskey" value="'+sesskey+'"><input type="hidden" name="action" value="creategroup"><div class="form-group"><label class="font-weight-bold">Polo Existente *</label><select name="polo" class="form-control" required><option value="">Selecione...</option>'+polosOptions+'</select></div><div class="form-group"><label class="font-weight-bold">Tutor (Usuário) *</label><select name="tutorid" class="form-control" required><option value="">Selecione...</option>'+tutorsOptions+'</select></div><p class="text-muted small mt-2">Formato final gerado: Polo_Nome_InicialSobrenome</p></form>';
+}
+ModalFactory.create({ type: ModalFactory.types.SAVE_CANCEL, title: title, body: body, large: true }).done(function(modal) {
+modal.setSaveButtonText(btnText);
+modal.getRoot().on(ModalEvents.save, function(e) {
+e.preventDefault(); var form = modal.getRoot().find('#groupmon-form')[0];
+if (form) { if (form.reportValidity()) { form.submit(); } }
+});
+modal.show();
+});
+});
+$(document).on('click', '.btn-add-manual', function(e) {
+e.preventDefault();
+var groupid = $(this).data('groupid');
+var groupname = $(this).data('groupname');
+var container = $('#groupmon-container');
+var courseid = container.data('courseid');
+var sesskey = container.data('sesskey');
+var body = '<form id="groupmon-form" action="index.php?courseid='+courseid+'" method="POST"><input type="hidden" name="sesskey" value="'+sesskey+'"><input type="hidden" name="action" value="addmember"><input type="hidden" name="groupid" value="'+groupid+'"><div class="form-group"><label class="font-weight-bold">Username do Aluno *</label><input type="text" name="username" class="form-control" required></div></form>';
+ModalFactory.create({ type: ModalFactory.types.SAVE_CANCEL, title: 'Adicionar a ' + groupname, body: body }).done(function(modal) {
+modal.setSaveButtonText('Adicionar Aluno');
+modal.getRoot().on(ModalEvents.save, function(e) {
+e.preventDefault(); var form = modal.getRoot().find('#groupmon-form')[0];
+if (form) { if (form.reportValidity()) { form.submit(); } }
+});
+modal.show();
+});
+});
+$(document).on('click', '.btn-add-csv', function(e) {
+e.preventDefault();
+var groupid = $(this).data('groupid');
+var groupname = $(this).data('groupname');
+var container = $('#groupmon-container');
+var courseid = container.data('courseid');
+var sesskey = container.data('sesskey');
+var body = '<form id="groupmon-form" action="index.php?courseid='+courseid+'" method="POST" enctype="multipart/form-data"><input type="hidden" name="sesskey" value="'+sesskey+'"><input type="hidden" name="action" value="importcsv"><input type="hidden" name="groupid" value="'+groupid+'"><div class="form-group"><label class="font-weight-bold">Ficheiro CSV *</label><input type="file" name="csvfile" class="form-control-file" accept=".csv" required></div><p class="text-muted small mt-2">O ficheiro deve conter os <strong>usernames</strong> dos alunos, sendo um por linha.</p></form>';
+ModalFactory.create({ type: ModalFactory.types.SAVE_CANCEL, title: 'Importar CSV para ' + groupname, body: body }).done(function(modal) {
+modal.setSaveButtonText('Importar Alunos');
+modal.getRoot().on(ModalEvents.save, function(e) {
+e.preventDefault(); var form = modal.getRoot().find('#groupmon-form')[0];
+if (form) { if (form.reportValidity()) { form.submit(); } }
+});
+modal.show();
+});
+});
+});
+{{/js}}
